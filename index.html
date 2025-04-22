@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Gabriel Pozzi - Curso Técnico em Desenvolvimento de Sistemas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="logoPOZZI(redondo) -.png">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E3A8A',
+                        secondary: '#10B981',
+                        accent: '#3B82F6',
+                        dark: '#1F2937',
+                        light: '#F3F4F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(16, 185, 129, 0.8) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-item::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #3B82F6;
+            transition: width 0.3s;
+        }
+        
+        .menu-item:hover::after {
+            width: 100%;
+        }
+        
+        .news-card {
+            transition: all 0.3s ease;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-toggle {
+            display: none;
+        }
+        
+        /* Mobile Menu Styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: white;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 1000;
+                padding-top: 80px;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu ul {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .nav-menu a {
+                font-size: 18px;
+                color: #1F2937;
+                font-weight: 500;
+            }
+            
+            .menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            
+            .menu-overlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+            
+            /* Cardápio mobile */
+            .menu-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .menu-table .grid {
+                display: inline-block;
+                min-width: 100%;
+            }
+            
+            .menu-table .grid > div {
+                min-width: 200px;
+            }
+            
+            /* Gallery captions */
+            .gallery-item {
+                position: relative;
+            }
+            
+            .gallery-caption {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(30, 58, 138, 0.8);
+                color: white;
+                padding: 10px;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                opacity: 0;
+            }
+            
+            .gallery-item:hover .gallery-caption {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Desktop Gallery Captions */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 58, 138, 0.8);
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        /* Initially hide mobile menu */
+        .nav-menu {
+            display: none;
+        }
+        
+        .menu-overlay {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: block;
+            }
+            
+            .menu-overlay {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Header with Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="logoPOZZI.png" alt="Logo Escola Gabriel Pozzi" class="h-12 mr-3">
+                <h1 class="text-xl font-heading font-bold text-primary">Escola <span class="text-accent">Gabriel Pozzi</span></h1>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#inicio" class="menu-item font-medium text-dark hover:text-accent">Início</a>
+                <a href="#sobre" class="menu-item font-medium text-dark hover:text-accent">Sobre</a>
+                <a href="#curso" class="menu-item font-medium text-dark hover:text-accent">Curso</a>
+                <a href="#galeria" class="menu-item font-medium text-dark hover:text-accent">Galeria</a>
+                <a href="#noticias" class="menu-item font-medium text-dark hover:text-accent">Notícias</a>
+                <a href="#cardapio" class="menu-item font-medium text-dark hover:text-accent">Cardápio</a>
+            </div>
+            
+            <button class="menu-toggle md:hidden text-2xl text-primary focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="nav-menu">
+            <div class="absolute top-4 right-4">
+                <button class="close-menu text-2xl text-primary focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="flex flex-col">
+                <li><a href="#inicio" class="block py-2 px-4 hover:bg-gray-100">Início</a></li>
+                <li><a href="#sobre" class="block py-2 px-4 hover:bg-gray-100">Sobre</a></li>
+                <li><a href="#curso" class="block py-2 px-4 hover:bg-gray-100">Curso</a></li>
+                <li><a href="#galeria" class="block py-2 px-4 hover:bg-gray-100">Galeria</a></li>
+                <li><a href="#noticias" class="block py-2 px-4 hover:bg-gray-100">Notícias</a></li>
+                <li><a href="#cardapio" class="block py-2 px-4 hover:bg-gray-100">Cardápio</a></li>
+            </ul>
+        </div>
+        
+        <div class="menu-overlay"></div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section id="inicio" class="hero-gradient text-white py-20 md:py-32">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6">Formando os Desenvolvedores do Futuro</h2>
+                <p class="text-xl md:text-2xl mb-8 leading-relaxed">
+                    Na Escola Gabriel Pozzi, nossa missão é capacitar jovens talentos com habilidades técnicas em 
+                    Desenvolvimento de Sistemas, preparando-os para os desafios do mercado de tecnologia.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#curso" class="bg-white text-primary font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+                        Conheça o Curso
+                    </a>
+                    <a href="#sobre" class="border-2 border-white text-white font-bold py-3 px-6 rounded-lg hover:bg-white hover:text-primary transition duration-300">
+                        Sobre a Escola
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Nossa História</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center gap-8">
+                <div class="lg:w-1/2">
+                    <img src="fotoescolaPOZZI.png" alt="Escola Gabriel Pozzi" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="lg:w-1/2">
+                    <h3 class="text-2xl font-heading font-bold text-dark mb-4">Uma tradição em educação tecnológica</h3>
+                    <p class="text-gray-700 mb-4">
+                        A Escola Gabriel Pozzi tem sido referência em educação técnica na região. 
+                        Nosso compromisso com a excelência acadêmica e a formação profissional de qualidade nos 
+                        destacou como uma das melhores instituições para quem busca ingressar no mercado de tecnologia.
+                    </p>
+                    <p class="text-gray-700 mb-6">
+                        Com infraestrutura moderna e professores altamente qualificados, oferecemos um ambiente 
+                        propício para o aprendizado e desenvolvimento de habilidades essenciais.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-light p-4 rounded-lg">
+                            <div class="text-secondary text-2xl mb-2">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h4 class="font-bold text-dark mb-1">+50</h4>
+                            <p class="text-gray-600 text-sm">Alunos formados</p>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg">
+                            <div class="text-secondary text-2xl mb-2">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h4 class="font-bold text-dark mb-1">+2</h4>
+                            <p class="text-gray-600 text-sm">Laboratórios de informática</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Section -->
+    <section id="curso" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Técnico em Desenvolvimento de Sistemas</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                    <div class="text-accent text-3xl mb-4">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">O Curso</h3>
+                    <p class="text-gray-700">
+                        Formação técnica que prepara profissionais para desenvolver sistemas computacionais, 
+                        utilizando linguagens de programação e banco de dados conforme especificações do projeto.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                    <div class="text-accent text-3xl mb-4">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Mercado de Trabalho</h3>
+                    <p class="text-gray-700">
+                        Empresas de desenvolvimento de sistemas, departamentos de TI de organizações públicas 
+                        e privadas, ou como profissional autônomo prestando serviços de desenvolvimento.
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md card-hover">
+                    <div class="text-accent text-3xl mb-4">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Duração</h3>
+                    <p class="text-gray-700">
+                        4 semestres (2 anos) com carga horária total de 3.000 horas, incluindo estágio 
+                        supervisionado e projeto de conclusão de curso.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8">
+                        <h3 class="text-2xl font-heading font-bold text-primary mb-6">Grade Curricular</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="text-secondary mr-3 mt-1">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-gray-700">Lógica de Programação e Algoritmos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-secondary mr-3 mt-1">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-gray-700">Banco de Dados e SQL</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-secondary mr-3 mt-1">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-gray-700">Desenvolvimento Web (HTML, CSS, JavaScript)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-secondary mr-3 mt-1">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span class="text-gray-700">Programação Orientada a Objetos</span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 bg-primary text-white p-8">
+                        <h3 class="text-2xl font-heading font-bold mb-6">Por que escolher nosso curso?</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="text-accent mr-3 mt-1">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Professores com experiência no mercado de tecnologia</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-3 mt-1">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Laboratórios equipados com tecnologia de ponta</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-3 mt-1">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Parcerias com empresas para estágios e empregos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-3 mt-1">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Projetos práticos desde o primeiro semestre</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-3 mt-1">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Preparação para certificações profissionais</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-3 mt-1">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Eventos para aprendizado</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8">
+                            <a href="#" class="inline-block bg-accent hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                                Inscreva-se agora
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galeria" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Nossa Galeria</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Conheça nosso ambiente e as camisas personalizadas do curso</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://3494.cdn.simplo7.net/static/3494/sku/quinzentenaconcentraco-camisa-branca-lisa-100-algodao--p-1597344162726.jpg" alt="Camisa do curso" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Camisa do Curso</h3>
+                        <p class="text-sm">Camisa personalizada do curso técnico em Desenvolvimento de Sistemas</p>
+                    </div>
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://www.ifgoiano.edu.br/home/images/lab_1.jpeg" alt="Laboratório de informática" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Laboratório de Informática</h3>
+                        <p class="text-sm">Nossos laboratórios equipados com tecnologia de ponta</p>
+                    </div>
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://tveventos.tv.br/wp-content/uploads/2024/05/R.jpeg" alt="Evento de tecnologia" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Evento de Tecnologia</h3>
+                        <p class="text-sm">Alunos participando de evento tecnológico da escola</p>
+                    </div>
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://sunsoftware.com.br/wp-content/uploads/2019/02/original-e592a3127db234459464767d3aa3029a.jpg" alt="Alunos em aula" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Aula Prática</h3>
+                        <p class="text-sm">Alunos desenvolvendo projetos em sala de aula</p>
+                    </div>
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://s3.glbimg.com/v1/AUTH_35862ca5c6ab48b992baf1f1b4f7062e/extra-globo-com/incoming/25655547-e96-d7d/w640h360-PROP/formatura.jpg" alt="Formatura" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Formatura</h3>
+                        <p class="text-sm">Cerimônia de formatura dos alunos do curso</p>
+                    </div>
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://imgs.cursosdeformacao.com.br/img_cursos/prod/img_610x320/administracao/desenvolvimento-de-projetos.webp" alt="Projetos desenvolvidos" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Projetos Desenvolvidos</h3>
+                        <p class="text-sm">Alguns dos projetos criados por nossos alunos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="#" class="inline-block border-2 border-primary text-primary font-bold py-2 px-6 rounded-lg hover:bg-primary hover:text-white transition duration-300">
+                    Ver mais fotos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="noticias" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Mural de Notícias</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Fique por dentro das novidades e eventos da escola</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md news-card">
+                    <img src="https://s2-umsoplaneta.glbimg.com/U2A5MXSgFRkNPY2FAx7BR5ggqNY=/0x0:1000x562/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_7d5b9b5029304d27b7ef8a7f28b4d70f/internal_photos/bs/2024/e/j/AQO5AJT8euebSv1iTAkw/alunos-em-balneario-rincao-sc-manipulam-aplicativo-dados-a-prova-dagua.jpg" alt="Notícia 1" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-secondary text-sm mb-2">15/06/2023</div>
+                        <h3 class="text-xl font-bold text-dark mb-3">Alunos desenvolvem aplicativo premiado</h3>
+                        <p class="text-gray-700 mb-4">
+                            Equipe de estudantes do curso de Desenvolvimento de Sistemas vence competição nacional 
+                            com aplicativo inovador para gestão de pequenos negócios.
+                        </p>
+                        <a href="#" class="text-accent font-medium hover:underline">Ler mais</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-md news-card">
+                    <img src="https://amures.org.br/wp-content/uploads/2023/04/Laboratorio-de-Informatica-1-768x364.jpg" alt="Notícia 2" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-secondary text-sm mb-2">02/06/2023</div>
+                        <h3 class="text-xl font-bold text-dark mb-3">Escola recebe novos laboratórios</h3>
+                        <p class="text-gray-700 mb-4">
+                            Investimento em infraestrutura traz 10 novos laboratórios de informática equipados 
+                            com computadores de última geração para os cursos técnicos.
+                        </p>
+                        <a href="#" class="text-accent font-medium hover:underline">Ler mais</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg overflow-hidden shadow-md news-card">
+                    <img src="https://www.ifmg.edu.br/congonhas/noticias/inscricoes-abertas-para-processo-seletivo-do-segundo-semestre-no-ifmg-estarao-abertas-de-18-de-maio-a-21-de-junho-as-inscricoes-para-o-processo-seletivo-do-ifmg-referente-ao-segundo-semestre-letivo-de-2021-assim-como-ocorreu-no-primeiro-semestre-devido-a/inscricoes-abertas.jpg/@@images/0bef2802-1314-4c7f-8d04-41a9d45b6385.jpeg" alt="Notícia 3" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="text-secondary text-sm mb-2">20/05/2023</div>
+                        <h3 class="text-xl font-bold text-dark mb-3">Inscrições abertas para o 2º semestre</h3>
+                        <p class="text-gray-700 mb-4">
+                            Processo seletivo para o curso técnico em Desenvolvimento de Sistemas está com vagas 
+                            abertas até 30 de junho. Não perca esta oportunidade!
+                        </p>
+                        <a href="#" class="text-accent font-medium hover:underline">Ler mais</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="#" class="inline-block border-2 border-primary text-primary font-bold py-2 px-6 rounded-lg hover:bg-primary hover:text-white transition duration-300">
+                    Ver todas as notícias
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="cardapio" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">Cardápio Semanal</h2>
+                <div class="w-20 h-1 bg-secondary mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Confira o que será servido no refeitório esta semana</p>
+            </div>
+            
+            <div class="bg-light rounded-xl shadow-md overflow-hidden menu-table">
+                <div class="grid grid-cols-1 md:grid-cols-5">
+                    <div class="bg-primary text-white p-4 text-center font-bold">
+                        Dia
+                    </div>
+                    <div class="bg-primary text-white p-4 text-center font-bold">
+                        Segunda
+                    </div>
+                    <div class="bg-primary text-white p-4 text-center font-bold">
+                        Terça
+                    </div>
+                    <div class="bg-primary text-white p-4 text-center font-bold">
+                        Quarta
+                    </div>
+                    <div class="bg-primary text-white p-4 text-center font-bold">
+                        Quinta
+                    </div>
+                    <div class="bg-primary text-white p-4 text-center font-bold">
+                        Sexta
+                    </div>
+                    
+                    <div class="bg-secondary text-white p-4 text-center font-bold">
+                        Café da Manhã
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Pão com manteiga, café, leite, frutas
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Pão de queijo, suco, iogurte
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Bolo, café, leite, frutas
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Tapioca, suco, iogurte
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Pão com requeijão, café, leite, frutas
+                    </div>
+                    
+                    <div class="bg-secondary text-white p-4 text-center font-bold">
+                        Almoço
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Arroz, feijão, frango grelhado, salada, sobremesa
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Arroz, feijão, carne assada, legumes, sobremesa
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Arroz, feijão, peixe, salada, sobremesa
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Arroz, feijão, omelete, salada, sobremesa
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Arroz, feijão, carne moída, legumes, sobremesa
+                    </div>
+                    
+                    <div class="bg-secondary text-white p-4 text-center font-bold">
+                        Lanche da Tarde
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Sanduíche natural, suco
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Frutas, iogurte
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Bolo, café
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Pão com geleia, leite
+                    </div>
+                    <div class="bg-white p-4 text-center">
+                        Cookies, suco
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center text-sm text-gray-600">
+                * Cardápio sujeito a alterações sem aviso prévio
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-16 bg-primary text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold mb-4">Entre em Contato</h2>
+                <div class="w-20 h-1 bg-accent mx-auto"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Informações de Contato</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="text-accent mr-3 mt-1">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Endereço:</p>
+                                <p>R. Melvin Jones, 330 - Vila Piza, Limeira - SP, 13486-161</p>
+                                <p>Cidade LIMEIRA - SP</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-accent mr-3 mt-1">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Telefone:</p>
+                                <p>(19) 34415017</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-accent mr-3 mt-1">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Email:</p>
+                                <p>contato@gabrielpozzi.edu.br (MUDAR)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-accent mr-3 mt-1">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Horário de Funcionamento:</p>
+                                <p>Segunda a Sexta: 7h às 16h</p>
+                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Envie uma Mensagem</h3>
+                    <form class="space-y-4">
+                        <div>
+                            <label for="name" class="block mb-1">Nome</label>
+                            <input type="text" id="name" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-accent">
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-1">Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-accent">
+                        </div>
+                        <div>
+                            <label for="subject" class="block mb-1">Assunto</label>
+                            <input type="text" id="subject" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-accent">
+                        </div>
+                        <div>
+                            <label for="message" class="block mb-1">Mensagem</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+                        </div>
+                        <button type="submit" class="bg-accent hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-heading font-bold mb-4">Escola Gabriel Pozzi</h3>
+                    <p class="text-gray-400">
+                        Formando profissionais de excelência em Desenvolvimento de Sistemas há mais de 5 anos.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Links Rápidos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-white transition duration-300">Início</a></li>
+                        <li><a href="#sobre" class="text-gray-400 hover:text-white transition duration-300">Sobre</a></li>
+                        <li><a href="#curso" class="text-gray-400 hover:text-white transition duration-300">Curso</a></li>
+                        <li><a href="#galeria" class="text-gray-400 hover:text-white transition duration-300">Galeria</a></li>
+                        <li><a href="#noticias" class="text-gray-400 hover:text-white transition duration-300">Notícias</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contato</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mr-2 mt-1"></i>
+                            <span>R. Melvin Jones, 330 - Vila Piza, Limeira - SP, 13486-161</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mr-2 mt-1"></i>
+                            <span>(19) 34415017</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mr-2 mt-1"></i>
+                            <span>contato@gabrielpozzi.edu.br (MUDAR)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Redes Sociais</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition duration-300">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-6 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2025 Escola Gabriel Pozzi. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const closeMenu = document.querySelector('.close-menu');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeMenu.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        menuOverlay.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Close mobile menu if open
+                navMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
