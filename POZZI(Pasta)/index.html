@@ -68,6 +68,7 @@
             display: none;
         }
         
+        /* Mobile Menu Styles */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
@@ -77,7 +78,7 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 70%;
+                width: 80%;
                 height: 100vh;
                 background: white;
                 box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
@@ -96,7 +97,13 @@
             }
             
             .nav-menu li {
-                margin: 10px 0;
+                margin: 15px 0;
+            }
+            
+            .nav-menu a {
+                font-size: 18px;
+                color: #1F2937;
+                font-weight: 500;
             }
             
             .menu-overlay {
@@ -116,6 +123,86 @@
                 opacity: 1;
                 pointer-events: all;
             }
+            
+            /* Cardápio mobile */
+            .menu-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .menu-table .grid {
+                display: inline-block;
+                min-width: 100%;
+            }
+            
+            .menu-table .grid > div {
+                min-width: 200px;
+            }
+            
+            /* Gallery captions */
+            .gallery-item {
+                position: relative;
+            }
+            
+            .gallery-caption {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(30, 58, 138, 0.8);
+                color: white;
+                padding: 10px;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                opacity: 0;
+            }
+            
+            .gallery-item:hover .gallery-caption {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Desktop Gallery Captions */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 58, 138, 0.8);
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        /* Initially hide mobile menu */
+        .nav-menu {
+            display: none;
+        }
+        
+        .menu-overlay {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: block;
+            }
+            
+            .menu-overlay {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -124,7 +211,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="logoPOZZI.png"Logo Escola Gabriel Pozzi" class="h-12 mr-3">
+                <img src="logoPOZZI.png" alt="Logo Escola Gabriel Pozzi" class="h-12 mr-3">
                 <h1 class="text-xl font-heading font-bold text-primary">Escola <span class="text-accent">Gabriel Pozzi</span></h1>
             </div>
             
@@ -148,7 +235,17 @@
                 <button class="close-menu text-2xl text-primary focus:outline-none">
                     <i class="fas fa-times"></i>
                 </button>
-
+            </div>
+            <ul class="flex flex-col">
+                <li><a href="#inicio" class="block py-2 px-4 hover:bg-gray-100">Início</a></li>
+                <li><a href="#sobre" class="block py-2 px-4 hover:bg-gray-100">Sobre</a></li>
+                <li><a href="#curso" class="block py-2 px-4 hover:bg-gray-100">Curso</a></li>
+                <li><a href="#galeria" class="block py-2 px-4 hover:bg-gray-100">Galeria</a></li>
+                <li><a href="#noticias" class="block py-2 px-4 hover:bg-gray-100">Notícias</a></li>
+                <li><a href="#cardapio" class="block py-2 px-4 hover:bg-gray-100">Cardápio</a></li>
+            </ul>
+        </div>
+        
         <div class="menu-overlay"></div>
     </header>
 
@@ -188,7 +285,7 @@
                 <div class="lg:w-1/2">
                     <h3 class="text-2xl font-heading font-bold text-dark mb-4">Uma tradição em educação tecnológica</h3>
                     <p class="text-gray-700 mb-4">
-                        Fundada em 1985, a Escola Gabriel Pozzi tem sido referência em educação técnica na região. 
+                        A Escola Gabriel Pozzi tem sido referência em educação técnica na região. 
                         Nosso compromisso com a excelência acadêmica e a formação profissional de qualidade nos 
                         destacou como uma das melhores instituições para quem busca ingressar no mercado de tecnologia.
                     </p>
@@ -353,23 +450,47 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <div class="overflow-hidden rounded-lg shadow-md">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
                     <img src="https://3494.cdn.simplo7.net/static/3494/sku/quinzentenaconcentraco-camisa-branca-lisa-100-algodao--p-1597344162726.jpg" alt="Camisa do curso" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Camisa do Curso</h3>
+                        <p class="text-sm">Camisa personalizada do curso técnico em Desenvolvimento de Sistemas</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden rounded-lg shadow-md">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
                     <img src="https://www.ifgoiano.edu.br/home/images/lab_1.jpeg" alt="Laboratório de informática" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Laboratório de Informática</h3>
+                        <p class="text-sm">Nossos laboratórios equipados com tecnologia de ponta</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden rounded-lg shadow-md">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
                     <img src="https://tveventos.tv.br/wp-content/uploads/2024/05/R.jpeg" alt="Evento de tecnologia" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Evento de Tecnologia</h3>
+                        <p class="text-sm">Alunos participando de evento tecnológico da escola</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden rounded-lg shadow-md">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
                     <img src="https://sunsoftware.com.br/wp-content/uploads/2019/02/original-e592a3127db234459464767d3aa3029a.jpg" alt="Alunos em aula" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Aula Prática</h3>
+                        <p class="text-sm">Alunos desenvolvendo projetos em sala de aula</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden rounded-lg shadow-md">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
                     <img src="https://s3.glbimg.com/v1/AUTH_35862ca5c6ab48b992baf1f1b4f7062e/extra-globo-com/incoming/25655547-e96-d7d/w640h360-PROP/formatura.jpg" alt="Formatura" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Formatura</h3>
+                        <p class="text-sm">Cerimônia de formatura dos alunos do curso</p>
+                    </div>
                 </div>
-                <div class="overflow-hidden rounded-lg shadow-md">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
                     <img src="https://imgs.cursosdeformacao.com.br/img_cursos/prod/img_610x320/administracao/desenvolvimento-de-projetos.webp" alt="Projetos desenvolvidos" class="w-full h-48 object-cover hover:scale-105 transition duration-300">
+                    <div class="gallery-caption">
+                        <h3 class="font-bold">Projetos Desenvolvidos</h3>
+                        <p class="text-sm">Alguns dos projetos criados por nossos alunos</p>
+                    </div>
                 </div>
             </div>
             
@@ -448,7 +569,7 @@
                 <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Confira o que será servido no refeitório esta semana</p>
             </div>
             
-            <div class="bg-light rounded-xl shadow-md overflow-hidden max-w-4xl mx-auto">
+            <div class="bg-light rounded-xl shadow-md overflow-hidden menu-table">
                 <div class="grid grid-cols-1 md:grid-cols-5">
                     <div class="bg-primary text-white p-4 text-center font-bold">
                         Dia
@@ -675,7 +796,7 @@
             </div>
             
             <div class="pt-6 border-t border-gray-800 text-center text-gray-400">
-                <p>&copy; 2023 Escola Gabriel Pozzi. Todos os direitos reservados.</p>
+                <p>&copy; 2025 Escola Gabriel Pozzi. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
